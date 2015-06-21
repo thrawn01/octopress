@@ -6,17 +6,22 @@ comments: true
 categories: book-review micro-services soa
 ---
 
+I picked up pdf copy of [Sam Newman's](http://samnewman.io) book, [Building Microservices](http://info.thoughtworks.com/building-microservices-book).
+Since I've had some experience with SOA and microservices I thought I'd take a look.
+I'm really glad that I did, it's a great book! The following are some quotes
+from the book and my thoughts on the subject.
+
 **"With micro-services, we can make a change to a single
 service and deploy it independently of the rest of the
 system.”** — If multiple services rely upon a single
 service, you can’t just change it inside a vacuum, deploy it
-and expect dependent systems to never have problems. Instead
+and expect dependent systems to never have problems.
+
 <!-- more -->
-what you might be creating is a deployment architecture where
-all your micro services must sync their releases and testing
-together across multiple teams. This requires non trivial
-cross team collaboration. This indicates a need for oversight
-management controls and testing to ensure releases happen
+Instead what you might be creating is a deployment architecture where all your
+micro services must sync their releases and testing together across multiple
+teams. This requires non trivial cross team collaboration. This indicates a
+need for oversight management controls and testing to ensure releases happen
 consistently and without incident.
 
 My take on how this could be avoided is by following one
@@ -110,5 +115,3 @@ organization or are starting green field. This is a great
 book to have, the author demonstrates a deep knowledge of the
 benefits and problems and the many common solutions designers
 and developers make when building services.
-
-http://info.thoughtworks.com/building-microservices-book
