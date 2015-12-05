@@ -7,7 +7,7 @@ categories: coreos kubernetes containers
 ---
 
 If you are running the CoreOS beta channel, you should already have kubelet
-installed, but if you are running stable channel like me, but wish to play
+installed, but if you are running stable channel like me and wish to play
 with the latest and greatest kubernetes and deploy a non trivial sized cluster,
 read on.
 <!-- more -->
@@ -52,8 +52,8 @@ binaries, config files and necessary TLS certificates.
 What I'm going to show you now is how you can use containers and systemd to deploy a
 kubernetes worker on CoreOS in a reproducible and maintainable manner
 
-At first you might think that all you need is ```cloud-config``` until you
-realize it can do everything but install binaries ( Well technically it can,
+At first you might think all you need is to use ```cloud-config``` until you
+realize it can do everything; but install binaries. Well technically it can,
 but you have to base encode the binary and place it in the cloud-config.yaml
 file which is not something I want to do with a 55 Megabyte binary. The second
 thought I had was too run the [cloud-config as a script](https://github.com/coreos/coreos-cloudinit#executing-a-script) and have
@@ -153,7 +153,7 @@ allow us to execute commands in the host name space from the container. [See htt
 
 Next we create a function called ```render_template()``` which preforms a little
 bash magic and gives us a poor mans template renderer. This will take a
-single file as input and expand any bash variables if finds within the target
+single file as input and expand any bash variables it finds within the target
 file. I mostly use this for expanding ```$PUBLIC_IP``` inside ```kubelet.service```
  and ```kube-proxy.service```.
 
@@ -178,7 +178,7 @@ script from within a docker container
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/docker pull thrawn01/worker:latest
+ExecStart=/usr/bin/docker pull <your-docker-repo>/worker:latest
 ExecStart=/usr/bin/docker run --privileged --net=host --ipc=host --uts=host -v /:/rootfs -v /dev:/dev -v /run:/run <your-docker-repo>/worker:latest /worker-install.sh
 RemainAfterExit=yes
 
@@ -190,7 +190,7 @@ has the latest version of the image then runs the install script from within
 the docker image. I give the container access to all the namespaces docker can
 provide just incase one day my script may need it.
 
-In order for avoid any chicken and egg problems both ```kube-proxy``` and ```kubelet```
+In order to avoid any chicken and egg problems both ```kube-proxy``` and ```kubelet```
 Unit files depend upon ```worker-install.servce``` before they
 are allowed to start, You can set this up by adding the following to any
 dependent systemd units.
@@ -201,7 +201,7 @@ Requires=worker-install.service
 Before=worker-install.service
 ```
 
-Now you can place the ```worker-install.server``` into a ```cloud-config``` and
+Now you can place the ```worker-install.service``` into a ```cloud-config``` and
 have it create the service when your provider installs CoreOS on the server.
 Once the server is booted, the rest of the kubernetes worker software should
 install automatically.
